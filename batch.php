@@ -33,7 +33,7 @@ foreach ($channel_list as $channel) {
 
     // var_dump($channel);
     $res = $client->request('GET', 'conversations.history?channel='.$channel['id'], compact('headers'));
-    var_dump($res);
+    // var_dump($res);
     $messages = json_decode($res->getBody().'', true)['messages'];
     $result = [
         'users' => [],
