@@ -24,7 +24,7 @@ jobs:
     #     version: 1
 
     - name: Install dependencies
-      run: composer update && composer install --prefer-dist --no-progress --no-suggest
+      run: composer --version && composer install --prefer-dist --no-progress --no-suggest
     - name: Run batch
       run: php batch.php
       env:
