@@ -15,8 +15,8 @@ $headers = [
 ];
 $res = $client->request('GET', 'conversations.list', compact('headers'));
 $channel_list = json_decode($res->getBody().'', true)['channels'];
-var_dump($res);
-var_dump($channel_list);
+// var_dump($res);
+// var_dump($channel_list);
 
 $report = [];
 foreach ($channel_list as $channel) {
