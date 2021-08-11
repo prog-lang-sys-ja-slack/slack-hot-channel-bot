@@ -89,7 +89,7 @@ $message = [
 $text = "";
 
 foreach ($report as $idx => $result) {
-  $text = $text.'<#'.$result['id'].'> :busts_in_silhouette:'.$result['users'].'人 :speech_balloon:'.$result['messages'].'回\n';
+  $text = $text.'<#'.$result['id'].'> :busts_in_silhouette:'.$result['users'].'人 :speech_balloon:'.$result['messages']."回\n";
 }
 
 array_push($message['blocks'],
