@@ -86,16 +86,20 @@ $message = [
     ]
 ];
 
+$text = "";
+
 foreach ($report as $idx => $result) {
-    $message['blocks'][] = [
-        'type' => 'section',
-        'block_id' => 'section'.($idx+1),
-        'text' => [
-            'type' => 'mrkdwn',
-            'text' => '<#'.$result['id'].'> :timer_clock: '.$result['updated_at'].' :busts_in_silhouette:'.$result['users'].'人 :speech_balloon:'.$result['messages'].'回'
-        ]
-    ];
+  $text = $text.'<#'.$result['id'].'> :busts_in_silhouette:'.$result['users'].'人 :speech_balloon:'.$result['messages'].'回\n';
 }
+
+$message['blocks'][] = [
+  'type' => 'section',
+  'block_id' => 'section0', // .($idx+1),
+  'text' => [
+    'type' => 'mrkdwn',
+    'text' => $text // '<#'.$result['id'].'> :busts_in_silhouette:'.$result['users'].'人 :speech_balloon:'.$result['messages'].'回'
+  ]
+];
 
 $client = new GuzzleHttp\Client();
 
