@@ -92,14 +92,15 @@ foreach ($report as $idx => $result) {
   $text = $text.'<#'.$result['id'].'> :busts_in_silhouette:'.$result['users'].'人 :speech_balloon:'.$result['messages'].'回\n';
 }
 
-$message['blocks'][] = [
-  'type' => 'section',
-  'block_id' => 'section0', // .($idx+1),
-  'text' => [
-    'type' => 'mrkdwn',
-    'text' => $text // '<#'.$result['id'].'> :busts_in_silhouette:'.$result['users'].'人 :speech_balloon:'.$result['messages'].'回'
-  ]
-];
+array_push($message['blocks'],
+  [
+    'type' => 'section',
+    'block_id' => 'section1', // .($idx+1),
+    'text' => [
+      'type' => 'mrkdwn',
+      'text' => $text // '<#'.$result['id'].'> :busts_in_silhouette:'.$result['users'].'人 :speech_balloon:'.$result['messages'].'回'
+    ]
+  ]);
 
 $client = new GuzzleHttp\Client();
 
