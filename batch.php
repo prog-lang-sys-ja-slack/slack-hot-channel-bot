@@ -71,13 +71,18 @@ $report = collect($report)->filter(function ($result) {
     return isset($result['updated_at']) && $result['users'];
 })->sortBy(function ($result) {
     return $result['messages'];
-})->reverse()->take(20)->reverse();
-
+})->reverse()->take(20);
 
 $text = "";
+$rank = 1;
+$msgs = 100;
 
 foreach ($report as $idx => $result) {
-  $text = $text.'<#'.$result['id'].'> :busts_in_silhouette:'.$result['users'].'人 :speech_balloon:'.$result['messages']."回\n";
+  $text = $text.$rank.'. <#'.$result['id'].'> :busts_in_silhouette:'.$result['users'].'人 :speech_balloon:'.$result['messages']."回\n";
+  if ($msgs > $result['messages']) {
+    $msgs = $result['messages'];
+    $rank += 1;
+  }
 }
 
 $message = [
