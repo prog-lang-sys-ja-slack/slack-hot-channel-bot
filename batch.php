@@ -41,23 +41,23 @@ foreach ($channel_list as $channel) {
         'name' => $channel['name_normalized'],
         'id' => $channel['id']
     ];
-    // foreach ($messages as $idx => $message) {
-    //     // subtypeがchannel_joinは発言じゃないっぽいので除く
-    //     if (isset($message['subtype']) && $message['subtype'] === 'channel_join') {
-    //         continue;
-    //     }
-    //     if (empty($message['user'])) {
-    //         continue;
-    //     }
-    //     $time = Carbon::createFromTimestamp($message['ts'])->addHour(9);
-    //     if ($idx === 0) {
-    //         $result['updated_at'] = $time->format('n/j H:i');
-    //     }
-    //     if (Carbon::now('Asia/Tokyo')->subHour(12)->diffInSeconds($time, false) >=0) {
-    //         $result['messages']++;
-    //         $result['users'][] = $message['user'] ?? '';
-    //     }
-    // }
+    foreach ($messages as $idx => $message) {
+        // subtypeがchannel_joinは発言じゃないっぽいので除く
+        if (isset($message['subtype']) && $message['subtype'] === 'channel_join') {
+            continue;
+        }
+        if (empty($message['user'])) {
+            continue;
+        }
+        $time = Carbon::createFromTimestamp($message['ts'])->addHour(9);
+        if ($idx === 0) {
+            $result['updated_at'] = $time->format('n/j H:i');
+        }
+        if (Carbon::now('Asia/Tokyo')->subDays(7)->diffInSeconds($time, false) >=0) {
+            $result['messages']++;
+            $result['users'][] = $message['user'] ?? '';
+        }
+    }
     if (is_int($result['messages']) && $result['messages'] >= 100) {
         $result['messages'] = '99+';
     }
