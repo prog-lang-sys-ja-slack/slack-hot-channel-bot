@@ -74,15 +74,15 @@ $report = collect($report)->filter(function ($result) {
 })->reverse()->take(20);
 
 $text = "";
-$rank = 1;
+$rank = 0;
 $msgs = 100;
 
 foreach ($report as $idx => $result) {
-  $text = $text.$rank.'. <#'.$result['id'].'> :busts_in_silhouette:'.$result['users'].'人 :speech_balloon:'.$result['messages']."回\n";
   if ($msgs > $result['messages']) {
     $msgs = $result['messages'];
     $rank += 1;
   }
+  $text = $text.$rank.'. <#'.$result['id'].'> :busts_in_silhouette:'.$result['users'].'人 :speech_balloon:'.$result['messages']."回\n";
 }
 
 $message = [
