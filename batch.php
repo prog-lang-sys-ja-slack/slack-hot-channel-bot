@@ -64,14 +64,21 @@ foreach ($channel_list as $channel) {
     $result['users'] = count(array_unique($result['users']));
     $report[] = $result;
 
-    sleep(4); // Tier 3 のAPI Limitっぽいので秒間0.5アクセスぐらいにする。バーストはOKって書いてあるけどほんとかなぁ
+    sleep(2); // Tier 3 のAPI Limitっぽいので秒間0.5アクセスぐらいにする。バーストはOKって書いてあるけどほんとかなぁ
 }
 
 $report = collect($report)->filter(function ($result) {
     return isset($result['updated_at']) && $result['users'];
 })->sortBy(function ($result) {
-    return $result['updated_at'];
+    return $result['messages'];
 })->reverse()->take(20)->reverse();
+
+
+$text = "";
+
+foreach ($report as $idx => $result) {
+  $text = $text.'<#'.$result['id'].'> :busts_in_silhouette:'.$result['users'].'人 :speech_balloon:'.$result['messages']."回\n";
+}
 
 $message = [
     'blocks' => [
@@ -80,27 +87,21 @@ $message = [
             'block_id' => 'section0',
             'text' => [
                 'type' => 'mrkdwn',
-                'text' => getenv('TITLE')
+                'text' => $text
             ]
         ]
     ]
 ];
 
-$text = "";
-
-foreach ($report as $idx => $result) {
-  $text = $text.'<#'.$result['id'].'> :busts_in_silhouette:'.$result['users'].'人 :speech_balloon:'.$result['messages']."回\n";
-}
-
-array_push($message['blocks'],
-  [
-    'type' => 'section',
-    'block_id' => 'section1', // .($idx+1),
-    'text' => [
-      'type' => 'mrkdwn',
-      'text' => $text // '<#'.$result['id'].'> :busts_in_silhouette:'.$result['users'].'人 :speech_balloon:'.$result['messages'].'回'
-    ]
-  ]);
+// array_push($message['blocks'],
+//   [
+//     'type' => 'section',
+//     'block_id' => 'section1', // .($idx+1),
+//     'text' => [
+//       'type' => 'mrkdwn',
+//       'text' => $text // '<#'.$result['id'].'> :busts_in_silhouette:'.$result['users'].'人 :speech_balloon:'.$result['messages'].'回'
+//     ]
+//   ]);
 
 $client = new GuzzleHttp\Client();
 
